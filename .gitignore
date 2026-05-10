@@ -19,5 +19,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Dependencies (if you add any later)
+# Dependencies
 node_modules/
+
+# Vite build output
+dist/
+.vite/

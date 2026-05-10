@@ -1,43 +1,20 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
+import { initializeApp } from 'firebase/app';
 import {
   getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect,
   getRedirectResult, onAuthStateChanged, signOut as fbSignOut
-} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-auth.js";
+} from 'firebase/auth';
 import {
   initializeFirestore, doc, getDoc, setDoc,
   persistentLocalCache, persistentMultipleTabManager
-} from "https://www.gstatic.com/firebasejs/10.13.0/firebase-firestore.js";
+} from 'firebase/firestore';
 
-// ============ FIREBASE CONFIG (loaded from .env) ============
-async function loadEnv() {
-  const res = await fetch('.env', { cache: 'no-store' });
-  if (!res.ok) throw new Error('.env not found — make sure it sits next to index.html');
-  const text = await res.text();
-  const env = {};
-  text.split(/\r?\n/).forEach(line => {
-    const trimmed = line.trim();
-    if (!trimmed || trimmed.startsWith('#')) return;
-    const eq = trimmed.indexOf('=');
-    if (eq === -1) return;
-    const key = trimmed.slice(0, eq).trim();
-    let value = trimmed.slice(eq + 1).trim();
-    if ((value.startsWith('"') && value.endsWith('"')) ||
-        (value.startsWith("'") && value.endsWith("'"))) {
-      value = value.slice(1, -1);
-    }
-    env[key] = value;
-  });
-  return env;
-}
-
-const env = await loadEnv();
 const firebaseConfig = {
-  apiKey: env.FIREBASE_API_KEY || "",
-  authDomain: env.FIREBASE_AUTH_DOMAIN || "",
-  projectId: env.FIREBASE_PROJECT_ID || "",
-  storageBucket: env.FIREBASE_STORAGE_BUCKET || "",
-  messagingSenderId: env.FIREBASE_MESSAGING_SENDER_ID || "",
-  appId: env.FIREBASE_APP_ID || ""
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
