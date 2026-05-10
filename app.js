@@ -175,51 +175,6 @@ window.signOut = async function () {
   catch (err) { console.error(err); toast('Sign out failed'); }
 };
 
-window.exportData = function () {
-  if (!currentUser) return;
-  const payload = {
-    exported_at: nowIso(),
-    user: { uid: currentUser.uid, email: currentUser.email || null },
-    profile: profile || null,
-    chapters, class_logs: classLogs, revisions, dpp, tests
-  };
-  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `studentstudylogs-${todayStr()}.json`;
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
-  toast('Downloaded');
-};
-
-window.deleteAccount = async function () {
-  if (!currentUser) return;
-  const ok = await confirmModal({
-    title: 'Delete your account?',
-    body: 'This permanently erases all your chapters, classes, revisions, DPPs, and tests. This cannot be undone.',
-    confirmLabel: 'Delete everything'
-  });
-  if (!ok) return;
-  setSyncStatus('syncing');
-  const uid = currentUser.uid;
-  try {
-    for (const name of ITEM_COLLECTIONS) {
-      const snap = await getDocs(collection(db, 'users', uid, name));
-      await Promise.all(snap.docs.map(d => deleteDoc(d.ref)));
-    }
-    await deleteDoc(doc(db, 'users', uid));
-    await fbSignOut(auth);
-    toast('Account deleted');
-  } catch (err) {
-    console.error('Delete account failed:', err);
-    setSyncStatus('offline');
-    toast('Could not delete — try again');
-  }
-};
-
 function setupAvatar() {
   const av = document.getElementById('header-avatar');
   const fb = document.getElementById('avatar-fallback');
