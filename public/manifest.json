@@ -1,0 +1,17 @@
+{
+  "name": "StudentStudyLogs",
+  "short_name": "SSL",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#FAF7F2",
+  "theme_color": "#FAF7F2",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
