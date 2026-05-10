@@ -1,7 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import {
-  getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect,
-  getRedirectResult, onAuthStateChanged, signOut as fbSignOut
+  getAuth, GoogleAuthProvider, signInWithPopup,
+  onAuthStateChanged, signOut as fbSignOut
 } from 'firebase/auth';
 import {
   initializeFirestore, doc, getDoc, setDoc,
@@ -75,20 +75,11 @@ function setSyncStatus(status) {
 document.getElementById('signin-btn').addEventListener('click', async () => {
   document.getElementById('auth-error').textContent = '';
   try {
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-    if (isMobile) {
-      await signInWithRedirect(auth, googleProvider);
-    } else {
-      await signInWithPopup(auth, googleProvider);
-    }
+    await signInWithPopup(auth, googleProvider);
   } catch (err) {
     console.error(err);
     document.getElementById('auth-error').textContent = err.message || 'Sign in failed.';
   }
-});
-
-getRedirectResult(auth).catch(err => {
-  if (err && err.code !== 'auth/no-redirect-event') console.error('Redirect error:', err);
 });
 
 onAuthStateChanged(auth, async (user) => {
