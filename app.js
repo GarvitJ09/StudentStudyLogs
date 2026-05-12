@@ -35,6 +35,7 @@ const SUBJECTS = [
   { id: 'zoology', name: 'Zoology', color: 'var(--zoology)' }
 ];
 const TARGETS = [
+  { id: 'neet_2026', label: 'Crack NEET 2026' },
   { id: 'neet_2027', label: 'Crack NEET 2027' },
   { id: 'jee_2027', label: 'Crack JEE 2027' }
 ];
